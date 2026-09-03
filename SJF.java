@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 class Process {
 String PID;
@@ -7,7 +7,6 @@ boolean completed;
 }
 
 public class SJF {
-
 public static void main(String[] args) {
 
     Scanner sc = new Scanner(System.in);

@@ -70,7 +70,8 @@ public class RR {
 
             if(p[index].RBT > tq){
                 runTime = tq;
-            }else{
+            }
+            else{
                 runTime = p[index].RBT;
             }
 

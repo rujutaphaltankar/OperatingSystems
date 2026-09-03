@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 class Process {
     String PID;
@@ -8,7 +8,6 @@ class Process {
 }
 
 public class PriorityPreemptive {
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -22,7 +21,7 @@ public class PriorityPreemptive {
         for (int i = 0; i < n; i++) {
 
             p[i] = new Process();
-            p[i].PID = "P " + (i + 1);
+            p[i].PID = "P" + (i + 1);
 
             System.out.println("\nEnter details for " + p[i].PID);
 

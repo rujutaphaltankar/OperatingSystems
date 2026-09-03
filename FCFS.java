@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 class Process {
     String PID;
@@ -6,7 +6,6 @@ class Process {
 }
 
 public class FCFS {
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
