@@ -107,9 +107,7 @@ public class PriorityPreemptive {
 
                 p[index].completed = true;
                 p[index].CT = time;
-
                 p[index].TAT = p[index].CT - p[index].AT;
-
                 p[index].WT = p[index].TAT - p[index].BT;
 
                 completed++;
