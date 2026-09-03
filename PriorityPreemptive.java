@@ -1,9 +1,10 @@
-import java.util.*;
+import java.util.Scanner;
 
 class Process {
-    int pid,at,bt,ct,tat,wt,rt,pr,response;
-    boolean started = false;
-    boolean completed = false;
+    String PID;
+    int AT, BT, PR, CT, TAT, WT, RT, RBT;
+    boolean completed;
+    boolean started;
 }
 
 public class PriorityPreemptive {
@@ -15,212 +16,143 @@ public class PriorityPreemptive {
         System.out.print("Enter number of processes: ");
         int n = sc.nextInt();
 
-        Process p[] = new Process[n];
+        Process[] p = new Process[n];
 
         // Input
-
         for (int i = 0; i < n; i++) {
 
             p[i] = new Process();
+            p[i].PID = "P " + (i + 1);
 
-            p[i].pid = i + 1;
+            System.out.println("\nEnter details for " + p[i].PID);
 
-            System.out.println("\nProcess P" + p[i].pid);
+            System.out.print("Arrival time: ");
+            p[i].AT = sc.nextInt();
 
-            System.out.print("Arrival Time: ");
-            p[i].at = sc.nextInt();
-
-            System.out.print("Burst Time: ");
-            p[i].bt = sc.nextInt();
+            System.out.print("Burst time: ");
+            p[i].BT = sc.nextInt();
 
             System.out.print("Priority (Greater Number = Higher Priority): ");
-            p[i].pr = sc.nextInt();
+            p[i].PR = sc.nextInt();
 
-            p[i].rt = p[i].bt;
+            p[i].RBT = p[i].BT;
         }
 
-
-        // Gantt Chart Arrays
-
-        String gantt[] = new String[1000];
-        int times[] = new int[1001];
-
-        int g = 0;
+        // Gantt Chart
+        String[] gantt = new String[1000];
+        int[] end = new int[1000];
 
         int time = 0;
         int completed = 0;
+        int k = 0;
 
-        times[0] = 0;
-
-
+        // Priority Preemptive
         while (completed < n) {
 
-            int idx = -1;
-
+            int index = -1;
             int highestPriority = -1;
 
-
-            // Find Highest Priority Process
-
+            // Find highest priority process
             for (int i = 0; i < n; i++) {
 
-                if (!p[i].completed && p[i].at <= time) {
+                if (!p[i].completed && p[i].AT <= time) {
 
-                    if (p[i].pr > highestPriority) {
+                    if (p[i].PR > highestPriority) {
 
-                        highestPriority = p[i].pr;
-                        idx = i;
+                        highestPriority = p[i].PR;
+                        index = i;
                     }
 
-                    else if (p[i].pr == highestPriority) {
+                    // If priority is same, choose earlier arrival time
+                    else if (p[i].PR == highestPriority) {
 
-                        if (p[i].at < p[idx].at) {
-
-                            idx = i;
+                        if (p[i].AT < p[index].AT) {
+                            index = i;
                         }
 
-                        else if (p[i].at == p[idx].at &&
-                                p[i].pid < p[idx].pid) {
-
-                            idx = i;
+                        // If arrival time is also same,
+                        // choose smaller process number
+                        else if (p[i].AT == p[index].AT && i < index) {
+                            index = i;
                         }
                     }
                 }
             }
 
-
-            // CPU Idle
-
-            if (idx == -1) {
-
-                gantt[g] = "Idle";
-
-                g++;
+            // CPU is idle
+            if (index == -1) {
 
                 time++;
-
-                times[g] = time;
-
                 continue;
             }
 
+            // Response time
+            if (!p[index].started) {
 
-            // Response Time
-
-            if (!p[idx].started) {
-
-                p[idx].response = time - p[idx].at;
-
-                p[idx].started = true;
+                p[index].RT = time - p[index].AT;
+                p[index].started = true;
             }
 
-
-            // Execute for 1 Unit
-
-            gantt[g] = "P" + p[idx].pid;
-
-            g++;
-
+            // Run process for 1 unit
             time++;
+            p[index].RBT--;
 
-            p[idx].rt--;
+            // Store Gantt chart
+            gantt[k] = p[index].PID;
+            end[k] = time;
+            k++;
 
-            times[g] = time;
+            // Process finished
+            if (p[index].RBT == 0) {
 
+                p[index].completed = true;
+                p[index].CT = time;
 
-            // Process Completed
+                p[index].TAT = p[index].CT - p[index].AT;
 
-            if (p[idx].rt == 0) {
-
-                p[idx].completed = true;
+                p[index].WT = p[index].TAT - p[index].BT;
 
                 completed++;
-
-                p[idx].ct = time;
-
-                p[idx].tat = p[idx].ct - p[idx].at;
-
-                p[idx].wt = p[idx].tat - p[idx].bt;
             }
         }
 
-
-        // ---------------- Gantt Chart ----------------
-
-        System.out.println("\nGantt Chart\n");
-
-
-        // Top Line
-
-        System.out.print("+");
-
-        for (int i = 0; i < g; i++) {
-
-            System.out.print("--------+");
-        }
-
-        System.out.println();
-
-
-        // Process Line
-
-        System.out.print("|");
-
-        for (int i = 0; i < g; i++) {
-
-            System.out.printf("%-8s|", gantt[i]);
-        }
-
-        System.out.println();
-
-
-        // Bottom Line
-
-        System.out.print("+");
-
-        for (int i = 0; i < g; i++) {
-
-            System.out.print("--------+");
-        }
-
-        System.out.println();
-
-
-        // Time Line
-
-        for (int i = 0; i <= g; i++) {
-
-            System.out.printf("%-9d", times[i]);
-        }
-
-
-        // ---------------- Table ----------------
-
-        System.out.println("\n");
-
-        System.out.println("PID\tAT\tBT\tPR\tCT\tTAT\tWT\tRT");
-
-        double avgWT = 0;
-        double avgTAT = 0;
+        // Output Table
+        System.out.println("\nPID\tAT\tBT\tPR\tCT\tTAT\tWT\tRT");
+        System.out.println("------------------------------------------------");
 
         for (int i = 0; i < n; i++) {
 
             System.out.println(
-                    "P" + p[i].pid + "\t"
-                    + p[i].at + "\t"
-                    + p[i].bt + "\t"
-                    + p[i].pr + "\t"
-                    + p[i].ct + "\t"
-                    + p[i].tat + "\t"
-                    + p[i].wt + "\t"
-                    + p[i].response);
+                p[i].PID + "\t" +
+                p[i].AT + "\t" +
+                p[i].BT + "\t" +
+                p[i].PR + "\t" +
+                p[i].CT + "\t" +
+                p[i].TAT + "\t" +
+                p[i].WT + "\t" +
+                p[i].RT
+            );
 
-            avgWT += p[i].wt;
-            avgTAT += p[i].tat;
         }
 
-        System.out.println("\nAverage Waiting Time: " + (avgWT / n));
-        System.out.println("Average Turn Around Time: " + (avgTAT / n));
+        // Gantt Chart
+        System.out.println("\nGantt Chart");
+
+        System.out.print("|");
+
+        for (int i = 0; i < k; i++) {
+            System.out.print("  " + gantt[i] + " |");
+        }
+
+        System.out.println();
+
+        System.out.print("0");
+
+        for (int i = 0; i < k; i++) {
+            System.out.print("  " + end[i]);
+        }
+
+        System.out.println();
 
         sc.close();
     }
