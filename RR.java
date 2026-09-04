@@ -15,9 +15,9 @@ public class RR {
 
         Process[] p = new Process[n];
 
-        for(int i=0;i<n;i++){
+        for(int i=0;i<n;i++) {
             p[i] = new Process();
-            p[i].PID = "P " + (i+1);
+            p[i].PID = "P" + (i+1);
 
             System.out.println("Enter details for " + p[i].PID);
 
