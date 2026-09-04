@@ -80,14 +80,12 @@ public class PriorityPreemptive {
 
             // CPU is idle
             if (index == -1) {
-
                 time++;
                 continue;
             }
 
             // Response time
             if (!p[index].started) {
-
                 p[index].RT = time - p[index].AT;
                 p[index].started = true;
             }
