@@ -8,7 +8,6 @@ boolean completed;
 
 public class SJF {
 public static void main(String[] args) {
-
     Scanner sc = new Scanner(System.in);
 
     System.out.print("Enter number of processes: ");
@@ -24,10 +23,8 @@ public static void main(String[] args) {
         p[i].PID = "P" + (i + 1);
 
         System.out.println("\nEnter details for Process " + p[i].PID);
-
         System.out.print("Enter arrival time: ");
         p[i].AT = sc.nextInt();
-
         System.out.print("Enter burst time: ");
         p[i].BT = sc.nextInt();
     }
@@ -79,7 +76,6 @@ public static void main(String[] args) {
     System.out.println("--------------------------------------------");
 
     for (int i = 0; i < n; i++) {
-
         System.out.println(
             p[i].PID + "\t" +
             p[i].AT + "\t" +
@@ -101,11 +97,9 @@ public static void main(String[] args) {
     }
 
     System.out.println();
-
     System.out.print("0");
 
     for (int i = 0; i < n; i++) {
-
         for (int j = 0; j < n; j++) {
 
             if (gantt[i].equals(p[j].PID)) {
@@ -115,7 +109,6 @@ public static void main(String[] args) {
     }
 
     System.out.println();
-
     sc.close();
 }
 

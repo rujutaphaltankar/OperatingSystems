@@ -7,7 +7,6 @@ class Process {
 
 public class FCFS {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter number of processes: ");
@@ -22,10 +21,8 @@ public class FCFS {
             p[i].PID = "P" + (i + 1);
 
             System.out.println("\nEnter details for process " + p[i].PID);
-
             System.out.print("Enter arrival time: ");
             p[i].AT = sc.nextInt();
-
             System.out.print("Enter burst time: ");
             p[i].BT = sc.nextInt();
         }
@@ -52,7 +49,6 @@ public class FCFS {
             if (time < p[i].AT) {
                 time = p[i].AT;
             }
-            
 
             p[i].CT = time + p[i].BT;
             p[i].TAT = p[i].CT - p[i].AT;
@@ -68,7 +64,6 @@ public class FCFS {
         System.out.println("------------------------------------------------------");
 
         for (int i = 0; i < n; i++) {
-
             System.out.println(
                 p[i].PID + "\t" +
                 p[i].AT + "\t" +
@@ -82,7 +77,6 @@ public class FCFS {
 
         // Gantt Chart
         System.out.println("\nGantt Chart");
-
         System.out.print("|");
 
         for (int i = 0; i < n; i++) {
@@ -99,7 +93,6 @@ public class FCFS {
         }
 
         System.out.println();
-
         sc.close();
     }
 }
